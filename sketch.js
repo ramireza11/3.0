@@ -1,10 +1,10 @@
 //flappy bird-like
 //mouse click or x to flap
 
-var GRAVITY = 0.3;
-var FLAP = -7;
+var GRAVITY = 0.5;
+var FLAP = -10;
 var GROUND_Y = 450;
-var MIN_OPENING = 300;
+var MIN_OPENING = 350;
 var bird, ground;
 var pipes;
 var gameOver;
@@ -22,16 +22,15 @@ function setup() {
   bird = createSprite(width/2, height/2, 40, 40);
   bird.rotateToDirection = true;
   bird.velocity.x = 4;
-  bird.setCollider('circle', 0, 0, 20);
+  bird.setCollider('circle', 0, 0, 50);
   bird.addImage(birdImg);
 
-  ground = createSprite(800/2, GROUND_Y+100); //image 800x200
+  ground = createSprite(800/2, GROUND_Y+80); //image 800x200
   ground.addImage(groundImg);
 
   pipes = new Group();
   gameOver = true;
   updateSprites(false);
-
   camera.position.y = height/2;
 }
 
@@ -66,7 +65,7 @@ function draw() {
       //top pipe
       if(pipeH<200) {
         pipeH = height - (height-GROUND_Y)-(pipeH+MIN_OPENING);
-        pipe = createSprite(bird.position.x + width, pipeH/2-100, 80, pipeH);
+        pipe = createSprite(bird.position.x + width, pipeH/2-100, 100, pipeH);
         pipe.mirrorY(-1);
         pipe.addImage(pipeImg);
         pipes.add(pipe);
@@ -79,15 +78,19 @@ function draw() {
         pipes[i].remove();
   }
 
-  camera.position.x = bird.position.x + width/4;
+  camera.position.x = bird.position.x + width/3;
 
   //wrap ground
   if(camera.position.x > ground.position.x-ground.width+width/2)
     ground.position.x+=ground.width;
 
-  background(247, 134, 131);
+  background(27, 124, 11);
+  blendMode(MULTIPLY);
+  
   camera.off();
-  image(bgImg, 0, GROUND_Y-190);
+
+  image(bgImg, 0, GROUND_Y-250);
+
   camera.on();
 
   drawSprites(pipes);
